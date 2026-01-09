@@ -1,0 +1,21 @@
+.description {
+  display: flex;  
+  flex-direction: column;
+  align-self: center;
+  justify-content: center;
+  text-align: center;
+  width: 25em;
+}
+
+.description p {
+  margin: 1em 0;
+}
+
+.startQuiz {
+  display: inline-block;
+  padding: 1em 1em;
+  border-radius: 1em;
+  color: white;
+  margin-top: 1em;
+  background-color:rgb(172, 80, 0)
+}
