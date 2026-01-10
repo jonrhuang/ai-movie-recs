@@ -1,12 +1,9 @@
 import {Link} from 'react-router-dom';
-import TitleHeader from './TitleHeader';
 import styles from './Home.module.css';
 
 function Home() {
   return (
     <>
-      <TitleHeader />
-
       <div className={styles.description}>
         <p>
           Is it movie night but you find it hard to decide on a movie for the whole crew?
@@ -18,7 +15,7 @@ function Home() {
 
       <Link 
         className={styles.startQuiz}
-        to='/step1'>
+        to='/quiz'>
           Get a Movie Rec!
       </Link>
     </>

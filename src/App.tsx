@@ -1,17 +1,21 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import TitleHeader from './components/TitleHeader';
 import Home from './components/Home';
-import QuizStep1 from './components/QuizStep1';
+import QuizStart from './components/QuizStart';
 import './App.css'
 
 function App() {
   return (
     <>
+      <TitleHeader />
+
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/step1' element={<QuizStep1/>} />
+          <Route path='/quiz' element={<QuizStart/>} />
         </Routes>
       </BrowserRouter>
+
     </>
   )
 }
