@@ -4,6 +4,7 @@ import QuizNav from '../QuizNav/QuizNav';
 import styles from './QuizQuestions.module.css';
 import { useNavigate } from 'react-router-dom';
 import type { QuizAnswers } from '../../utils/types';
+import { QuestionButton } from '../QuestionButton/QuestionButton';
 
 type QuizQuestionsProps = {
   numPeople: number;
@@ -34,15 +35,6 @@ function QuizQuestions(props: QuizQuestionsProps) {
 
   function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  }
-
-  const handleClick = (
-    key: string, 
-    currentBtnValue: boolean, 
-    setter: React.Dispatch<React.SetStateAction<boolean>>
-  ) => {
-    setForm(prev => ({...prev, [key]: !currentBtnValue}))
-    setter(prev => !prev)
   }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -97,72 +89,54 @@ function QuizQuestions(props: QuizQuestionsProps) {
           Are you in the mood for something new or a classic?
         </h2>
         <div className={styles.QuestionTwo}>
-          <button
-            className={`
-              ${styles.NewBtn}
-              ${newBtn ? styles.selected : ""}
-            `}
-            type='button'
-            onClick={() => handleClick("isNew", form.isNew, setNewBtn)}
-          >
-            New
-          </button>
-          <button
-            className={`
-              ${styles.ClassicBtn}
-              ${classicBtn ? styles.selected : ""}
-            `}
-            type='button'
-            onClick={() => handleClick("isClassic", form.isClassic, setClassicBtn)}
-          >
-            Classic
-          </button>
+          <QuestionButton
+            buttonName='New'
+            currentValue={newBtn}
+            formKey='isNew'
+            setState={setNewBtn}
+            setFormState={setForm}
+          />
+          <QuestionButton
+            buttonName='Classic'
+            currentValue={classicBtn}
+            formKey='isClassic'
+            setState={setClassicBtn}
+            setFormState={setForm}
+          />
         </div>
 
         <h2>
           What are you in the mood for?
         </h2>
         <div className={styles.QuestionThree}>
-          <button
-            className={`
-              ${styles.FunBtn}
-              ${funBtn ? styles.selected : ""}
-            `}
-            type='button'
-            onClick={() => handleClick("isFun", form.isFun, setFunBtn)}
-          >
-            Fun
-          </button>
-          <button
-            className={`
-              ${styles.SeriousBtn}
-              ${seriousBtn ? styles.selected : ""}
-            `}
-            type='button'
-            onClick={() => handleClick("isSerious", form.isSerious, setSeriousBtn)}
-          >
-            Serious
-          </button>
-          <button
-            className={`
-              ${styles.InspiringBtn}
-              ${inspiringBtn ? styles.selected : ""}
-            `}
-            type='button'
-            onClick={() => handleClick("isInspiring", form.isInspiring, setInspiringBtn)}
-          >
-            Inspiring
-          </button>
-          <button
-            className={`
-              ${styles.ScaryBtn}
-              ${scaryBtn ? styles.selected : ""}
-            `}
-            type='button'
-            onClick={() => handleClick("isScary", form.isScary, setScaryBtn)}
-          >
-            Scary
-          </button>
+          <QuestionButton
+            buttonName='Fun'
+            currentValue={funBtn}
+            formKey='isFun'
+            setState={setFunBtn}
+            setFormState={setForm}
+          />
+          <QuestionButton
+            buttonName='Serious'
+            currentValue={seriousBtn}
+            formKey='isSerious'
+            setState={setSeriousBtn}
+            setFormState={setForm}
+          />
+          <QuestionButton
+            buttonName='Inspiring'
+            currentValue={inspiringBtn}
+            formKey='isInspiring'
+            setState={setInspiringBtn}
+            setFormState={setForm}
+          />
+          <QuestionButton
+            buttonName='Scary'
+            currentValue={scaryBtn}
+            formKey='isScary'
+            setState={setScaryBtn}
+            setFormState={setForm}
+          />
         </div>
 
         <label>
@@ -177,11 +151,18 @@ function QuizQuestions(props: QuizQuestionsProps) {
           />
         </label>
 
-        <input
-          className={styles.submit}
-          type='submit'
-          value='Next Person'
-        />
+        {props.currentPerson !== props.numPeople ?
+          <input
+            className={styles.submit}
+            type='submit'
+            value='Next Person'
+          /> :
+          <input
+            className={styles.submit}
+            type='submit'
+            value='Get Movie'
+          />
+        }
       </form>
     </>
   )

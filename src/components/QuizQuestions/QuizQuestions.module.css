@@ -36,20 +36,6 @@
   align-items: left;
 }
 
-.NewBtn, 
-.ClassicBtn,
-.FunBtn,
-.SeriousBtn,
-.InspiringBtn,
-.ScaryBtn {
-  background-color: #3B4877;
-  padding: 0.5em 1.5em;
-}
-
-.selected {
-  background-color: rgb(172, 80, 0);
-}
-
 .submit {
   font-family: inherit;
   font-size: 1.4em;

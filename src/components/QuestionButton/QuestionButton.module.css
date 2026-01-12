@@ -1,0 +1,8 @@
+.btn {
+  background-color: #3B4877;
+  padding: 0.5em 1.5em;
+}
+
+.selected {
+  background-color: rgb(172, 80, 0);
+}
