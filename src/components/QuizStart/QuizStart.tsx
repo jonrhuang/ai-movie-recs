@@ -1,40 +1,47 @@
-
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import type { PrequizAnswers, QuizAnswers } from '../../utils/types';
+import { initializeQuizAnswers } from '../../utils/types';
 import styles from './QuizStart.module.css';
-import type React from 'react';
 
-function QuizStart() {
-  const [form, setForm] = useState({
-    people: 0,
-    hours: 0,
-    minutes: 0,
-  });
+type QuizStartProps = {
+  startAnswers: PrequizAnswers;
+  setStartAnswers: React.Dispatch<React.SetStateAction<PrequizAnswers>>;
+  setCurrentPerson: React.Dispatch<React.SetStateAction<number>>;
+  setPersonAnswers: React.Dispatch<React.SetStateAction<QuizAnswers[]>>;
+}
+
+function QuizStart(props: QuizStartProps) {
   const navigate = useNavigate();
 
+
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    let value:number = 0;
     const input = e.target;
+    let value: number = Number(input.value);
     const min = Number(input.min);
     const max = Number(input.max);
-    if (Number(input.value) < min) {
+    if (value < min) {
       value = min;
     }
-    if (Number(input.value) > max) {
+    if (value > max) {
       value = max;
     }
-    setForm(prev => ({ ...prev, [input.name]: value }));
+    props.setStartAnswers(prev => ({ ...prev, [input.name]: value }));
   }
+
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    // Add error check for empty
+    props.setCurrentPerson(1);
 
-    localStorage.setItem(
-      "form", JSON.stringify(form)
-    )
+    const personAnswersArray = Array.from({length: props.startAnswers.numPeople}, (_,i) => {
+      return initializeQuizAnswers(i+1);
+    })
+
+    props.setPersonAnswers(personAnswersArray);
+
     navigate("/questions");
   }
+
   return (
     <>
       <form
@@ -47,13 +54,15 @@ function QuizStart() {
         <label>
           <input
             className={styles.numPeopleInput}
-            name='people'
+            name='numPeople'
             type='number'
             placeholder='2'
             min={1}
-            max={5}
+            max={6}
             onChange={handleChange}
+            required
           />
+          <h3>(1-5)</h3>
         </label>
 
         <h2>
@@ -65,7 +74,10 @@ function QuizStart() {
             name='hours'
             type='number'
             placeholder='1'
+            min={0}
+            max={3}
             onChange={handleChange}
+            required
           />
           <h3>Hours</h3>
         </label>
@@ -80,6 +92,7 @@ function QuizStart() {
             min={0}
             max={45}
             onChange={handleChange}
+            required
           />
           <h3>Minutes</h3>
         </label>

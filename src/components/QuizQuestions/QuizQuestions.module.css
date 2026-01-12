@@ -1,0 +1,62 @@
+.QuizQuestions {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2em;
+  padding-top: 2em;
+}
+
+.QuizQuestions h2 {
+  text-align: left;
+  margin-bottom: 0.5em;
+}
+
+.FavoriteMovie,
+.FilmPerson {
+  font-family: inherit;
+  background-color: #3B4877;
+  border: none;
+  border-radius: 10px;
+  resize: none;
+  width: 100%;
+  padding: 0.5em;
+}
+
+.FavoriteMovie {
+  height: 6em;
+}
+
+.FilmPerson {
+  height: 5em;
+}
+
+.QuestionTwo,
+.QuestionThree {
+  display: flex;
+  gap: 1em;
+  align-items: left;
+}
+
+.NewBtn, 
+.ClassicBtn,
+.FunBtn,
+.SeriousBtn,
+.InspiringBtn,
+.ScaryBtn {
+  background-color: #3B4877;
+  padding: 0.5em 1.5em;
+}
+
+.selected {
+  background-color: rgb(172, 80, 0);
+}
+
+.submit {
+  font-family: inherit;
+  font-size: 1.4em;
+  border-radius: 10px;
+  background-color:rgb(172, 80, 0);
+  align-self: center;
+  width: 50%;
+  padding: 1em;
+  margin-top: 1em
+}

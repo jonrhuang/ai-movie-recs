@@ -1,0 +1,43 @@
+.nav {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2em;
+  margin-bottom: 2em;
+  padding-top: 2em;
+  margin-top: 2em;
+}
+
+.people {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 1em 2em;
+  max-width: 40%;
+  flex-wrap: wrap;
+}
+
+.navPerson {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 3em;
+  height: 3em;
+  border: 1px solid white;
+  background-color: #3B4877;
+  border-radius: 1.5em;
+}
+
+.currentPerson {
+  background-color:rgb(172, 80, 0);
+}
+
+.startOverButton {
+  display: inline-block;
+  background-color: #3B4877;
+  margin-left: auto;
+}
