@@ -4,7 +4,7 @@ import TitleHeader from './components/TitleHeader/TitleHeader';
 import Home from './components/Home/Home';
 import QuizStart from './components/QuizStart/QuizStart';
 import QuizQuestions from './components/QuizQuestions/QuizQuestions';
-import type { PrequizAnswers, QuizAnswers } from './utils/types';
+import type { PrequizAnswers, PersonQuizAnswers } from './utils/types';
 import './App.css'
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
   });
   const [currentPerson, setCurrentPerson] = useState(1)
 
-  const [personAnswers, setPersonAnswers] = useState<QuizAnswers[]>([])
+  const [personAnswers, setPersonAnswers] = useState<PersonQuizAnswers[]>([])
 
   return (
     <>

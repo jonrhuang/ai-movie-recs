@@ -1,68 +1,56 @@
-
-import React, { useState } from 'react'
 import QuizNav from '../QuizNav/QuizNav';
 import styles from './QuizQuestions.module.css';
 import { useNavigate } from 'react-router-dom';
-import type { QuizAnswers } from '../../utils/types';
+import type { PersonQuizAnswers } from '../../utils/types';
 import { QuestionButton } from '../QuestionButton/QuestionButton';
 
 type QuizQuestionsProps = {
   numPeople: number;
-  personAnswers: QuizAnswers[];
-  setPersonAnswers: React.Dispatch<React.SetStateAction<QuizAnswers[]>>;
+  personAnswers: PersonQuizAnswers[];
+  setPersonAnswers: React.Dispatch<React.SetStateAction<PersonQuizAnswers[]>>;
   currentPerson: number;
   setCurrentPerson: React.Dispatch<React.SetStateAction<number>>;
 }
+
 function QuizQuestions(props: QuizQuestionsProps) {
   const navigate = useNavigate();
-  const currentAnswers = props.personAnswers.find(item => item.person === props.currentPerson)
-  const [newBtn, setNewBtn] = useState(currentAnswers?.isNew ?? false)
-  const [classicBtn, setClassicBtn] = useState(currentAnswers?.isClassic ?? false)
-  const [funBtn, setFunBtn] = useState(currentAnswers?.isFun ?? false)
-  const [seriousBtn, setSeriousBtn] = useState(currentAnswers?.isSerious ?? false)
-  const [inspiringBtn, setInspiringBtn] = useState(currentAnswers?.isInspiring ?? false)
-  const [scaryBtn, setScaryBtn] = useState(currentAnswers?.isScary ?? false)
-  const [form, setForm] = useState({
-    favorite: currentAnswers?.favorite ?? "",
-    isNew: newBtn,
-    isClassic: classicBtn,
-    isFun: funBtn,
-    isSerious: seriousBtn,
-    isInspiring: inspiringBtn,
-    isScary: scaryBtn,
-    island: currentAnswers?.island ?? "",
-  })
+
+  const getCurrentAnswers = () => props.personAnswers.find(item => item.person === props.currentPerson)
+  const atLastPerson = props.currentPerson === props.numPeople
 
   function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    e.preventDefault()
+
+    props.setPersonAnswers(prev =>
+      prev.map(item =>
+        item.person === props.currentPerson
+          ? { ...item, [e.target.name]: e.target.value }
+          : item
+      )
+    );
+  }
+
+  const handleClick = (
+    formKey: keyof PersonQuizAnswers
+  ) => {
+    props.setPersonAnswers(prev =>
+      prev.map(item =>
+        item.person === props.currentPerson
+          ? { ...item, [formKey]: !item[formKey] }
+          : item
+      )
+    );
   }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    props.setPersonAnswers(prev =>
-      prev.map(answers =>
-        answers.person === props.currentPerson ?
-          { ...answers, ...form } : answers
-      )
-    );
+    if (!atLastPerson) {
+      props.setCurrentPerson(prev => prev + 1);
+      return
+    }
 
-    if (props.currentPerson === props.numPeople) {
-      navigate('/result');
-    }
-    else {
-      props.setCurrentPerson(prev => prev + 1)
-      setForm({
-        favorite: currentAnswers?.favorite ?? "",
-        isNew: newBtn,
-        isClassic: classicBtn,
-        isFun: funBtn,
-        isSerious: seriousBtn,
-        isInspiring: inspiringBtn,
-        isScary: scaryBtn,
-        island: currentAnswers?.island ?? "",
-      });
-    }
+    navigate('/result');
   }
 
   return (
@@ -81,7 +69,7 @@ function QuizQuestions(props: QuizQuestionsProps) {
             className={styles.FavoriteMovie}
             name='favorite'
             onChange={handleChange}
-            value={form.favorite}
+            value={getCurrentAnswers()?.favorite ?? ''}
           />
         </label>
 
@@ -91,17 +79,13 @@ function QuizQuestions(props: QuizQuestionsProps) {
         <div className={styles.QuestionTwo}>
           <QuestionButton
             buttonName='New'
-            currentValue={newBtn}
-            formKey='isNew'
-            setState={setNewBtn}
-            setFormState={setForm}
+            clicked={getCurrentAnswers()?.isNew ?? false}
+            handleClick={() => handleClick('isNew')}
           />
           <QuestionButton
             buttonName='Classic'
-            currentValue={classicBtn}
-            formKey='isClassic'
-            setState={setClassicBtn}
-            setFormState={setForm}
+            clicked={getCurrentAnswers()?.isClassic ?? false}
+            handleClick={() => handleClick('isClassic')}
           />
         </div>
 
@@ -111,31 +95,23 @@ function QuizQuestions(props: QuizQuestionsProps) {
         <div className={styles.QuestionThree}>
           <QuestionButton
             buttonName='Fun'
-            currentValue={funBtn}
-            formKey='isFun'
-            setState={setFunBtn}
-            setFormState={setForm}
+            clicked={getCurrentAnswers()?.isFun ?? false}
+            handleClick={() => handleClick('isFun')}
           />
           <QuestionButton
             buttonName='Serious'
-            currentValue={seriousBtn}
-            formKey='isSerious'
-            setState={setSeriousBtn}
-            setFormState={setForm}
+            clicked={getCurrentAnswers()?.isSerious ?? false}
+            handleClick={() => handleClick('isSerious')}
           />
           <QuestionButton
             buttonName='Inspiring'
-            currentValue={inspiringBtn}
-            formKey='isInspiring'
-            setState={setInspiringBtn}
-            setFormState={setForm}
+            clicked={getCurrentAnswers()?.isInspiring ?? false}
+            handleClick={() => handleClick('isInspiring')}
           />
           <QuestionButton
             buttonName='Scary'
-            currentValue={scaryBtn}
-            formKey='isScary'
-            setState={setScaryBtn}
-            setFormState={setForm}
+            clicked={getCurrentAnswers()?.isScary ?? false}
+            handleClick={() => handleClick('isScary')}
           />
         </div>
 
@@ -147,22 +123,15 @@ function QuizQuestions(props: QuizQuestionsProps) {
             className={styles.FilmPerson}
             name='island'
             onChange={handleChange}
-            value={form.island}
+            value={getCurrentAnswers()?.island ?? ''}
           />
         </label>
 
-        {props.currentPerson !== props.numPeople ?
-          <input
-            className={styles.submit}
-            type='submit'
-            value='Next Person'
-          /> :
-          <input
-            className={styles.submit}
-            type='submit'
-            value='Get Movie'
-          />
-        }
+        <button
+          className={styles.submit}
+        >
+          {atLastPerson ? 'Get Movie' : 'Next Person'}
+        </button>
       </form>
     </>
   )

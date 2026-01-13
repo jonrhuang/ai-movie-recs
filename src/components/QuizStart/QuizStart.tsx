@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
-import type { PrequizAnswers, QuizAnswers } from '../../utils/types';
-import { initializeQuizAnswers } from '../../utils/types';
+import type { PrequizAnswers, PersonQuizAnswers } from '../../utils/types';
+import { initializePersonQuizAnswers } from '../../utils/types';
 import styles from './QuizStart.module.css';
 
 type QuizStartProps = {
   startAnswers: PrequizAnswers;
   setStartAnswers: React.Dispatch<React.SetStateAction<PrequizAnswers>>;
   setCurrentPerson: React.Dispatch<React.SetStateAction<number>>;
-  setPersonAnswers: React.Dispatch<React.SetStateAction<QuizAnswers[]>>;
+  setPersonAnswers: React.Dispatch<React.SetStateAction<PersonQuizAnswers[]>>;
 }
 
 function QuizStart(props: QuizStartProps) {
@@ -15,17 +15,18 @@ function QuizStart(props: QuizStartProps) {
 
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const input = e.target;
-    let value: number = Number(input.value);
-    const min = Number(input.min);
-    const max = Number(input.max);
+    let value = Number(e.target.value);
+    const min = Number(e.target.min);
+    const max = Number(e.target.max);
+
     if (value < min) {
       value = min;
     }
     if (value > max) {
       value = max;
     }
-    props.setStartAnswers(prev => ({ ...prev, [input.name]: value }));
+
+    props.setStartAnswers(prev => ({ ...prev, [e.target.name]: value }));
   }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -34,7 +35,7 @@ function QuizStart(props: QuizStartProps) {
     props.setCurrentPerson(1);
 
     const personAnswersArray = Array.from({length: props.startAnswers.numPeople}, (_,i) => {
-      return initializeQuizAnswers(i+1);
+      return initializePersonQuizAnswers(i+1);
     })
 
     props.setPersonAnswers(personAnswersArray);

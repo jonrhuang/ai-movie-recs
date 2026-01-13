@@ -4,7 +4,7 @@ export type PrequizAnswers = {
   minutes: number
 }
 
-export type QuizAnswers = {
+export type PersonQuizAnswers = {
   person: number,
   favorite: string,
   isNew: boolean,
@@ -16,7 +16,7 @@ export type QuizAnswers = {
   island: string,
 }
 
-export function initializeQuizAnswers(n: number): QuizAnswers {
+export function initializePersonQuizAnswers(n: number): PersonQuizAnswers {
   return ({
     person: n,
     favorite: "",

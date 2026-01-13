@@ -18,14 +18,13 @@ function QuizNav(props: QuizNavProps) {
         ${styles.navPerson}
         ${props.currentPerson === i+1 ? styles.currentPerson : ''}
       `}
+      onClick={() => handleChangePerson(i+1)}
     >
       P{i+1}
     </button>
   ))
 
-  function handleChangePerson(num: number) {
-    props.setCurrentPerson(num)
-  }
+  const handleChangePerson = (num: number) => props.setCurrentPerson(num);
 
   function handleStartOver() {
     navigate('/')
