@@ -50,7 +50,7 @@ function QuizQuestions(props: QuizQuestionsProps) {
       return
     }
 
-    navigate('/result');
+    navigate('/results');
   }
 
   return (

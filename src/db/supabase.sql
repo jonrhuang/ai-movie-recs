@@ -30,6 +30,8 @@ create or replace function search_movies (
 )
 returns table(
   id bigint,
+  title text,
+  release_year int,
   content text,
   similarity float
 )
@@ -37,7 +39,9 @@ language sql stable
 as $$
   select
     movie_recommendations.id,
-    movie_recommendations.content, 
+    movie_recommendations.title,
+    movie_recommendations.release_year,
+    movie_recommendations.content,
     1 - (movie_recommendations.embedding <=> query_embedding) as similarity
   from movie_recommendations
   where 1 - (movie_recommendations.embedding <=> query_embedding) > match_threshold

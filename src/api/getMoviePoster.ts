@@ -1,4 +1,3 @@
-
 export async function getMoviePoster(movieTitle: string) {
   try {
     const baseUrl = await getBaseUrl();
@@ -33,7 +32,7 @@ async function getBaseUrl() {
   }
 }
 
-export async function getFileSize() {
+async function getFileSize() {
   try {
     const url = 'https://api.themoviedb.org/3/configuration';
     const options = {
