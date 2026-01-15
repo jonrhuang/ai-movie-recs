@@ -1,5 +1,5 @@
 # AI Movie Recommendation App
-Hold and roll dice until you get 10 of the same number. Following Scrimba "Learn React" course 
+
 
 ## Tech Stack
 - **Vite**
