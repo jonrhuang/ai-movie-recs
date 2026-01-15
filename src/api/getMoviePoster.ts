@@ -54,7 +54,6 @@ async function getFileSize() {
 
 async function getMoviePosterPath(movieTitle: string) {
   const encodedTitle = encodeURIComponent(movieTitle);
-  console.log(encodedTitle)
   const url = `https://api.themoviedb.org/3/search/movie?query=${encodedTitle}`;
   const options = {
     method: 'GET',

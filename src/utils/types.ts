@@ -29,3 +29,18 @@ export function initializePersonQuizAnswers(n: number): PersonQuizAnswers {
     island: "",
   })
 }
+
+export type SupabaseSearchObject = {
+  content: string,
+  id: number,
+  release_year: number,
+  similarity: number,
+  title: string,
+}
+
+export type RecommendationData = {
+  title: string,
+  year: number,
+  description: string,
+  poster: string, 
+}

@@ -1,6 +1,7 @@
 import dedent from 'dedent';
 import { openai, supabase } from '../utils/config'
-import type { PersonQuizAnswers } from '../utils/types';
+import type { PersonQuizAnswers, SupabaseSearchObject } from '../utils/types';
+import { getMoviePoster } from './getMoviePoster';
 
 export async function queryAI(prompts: PersonQuizAnswers[]) {
   const finalPrompt = prompts.map((item) => generatePrompt(item)).join('.')
@@ -18,8 +19,20 @@ export async function queryAI(prompts: PersonQuizAnswers[]) {
       match_threshold: 0.2,
       match_count: 3
     });
-    if (error) throw new Error('error running supabase function')
-    console.log(data)
+    if (error) {
+      throw new Error('error running supabase function')
+    }
+    const movieList = await Promise.all(
+      data.map(async (item: SupabaseSearchObject) => {
+      const url = await getMoviePoster(item.title)
+      return {
+        title: item.title,
+        year: item.release_year,
+        description: item.content.split('):')[1],
+        poster: url,
+      }
+    }));
+    return movieList;
   } catch (error) {
     console.log(error)
   }
