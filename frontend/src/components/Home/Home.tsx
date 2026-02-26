@@ -1,7 +1,15 @@
 import {Link} from 'react-router-dom';
+import {useState} from 'react';
 import styles from './Home.module.css';
 
 function Home() {
+  const [message, setMessage] = useState("");
+  async function testfetch() {
+    const res = await fetch("http://localhost:5000/api");
+    const data = await res.json();
+    setMessage(data.message);
+  }
+
   return (
     <>
       <div className={styles.description}>
@@ -15,9 +23,20 @@ function Home() {
 
       <Link 
         className={styles.startQuiz}
-        to='/quiz'>
+        to='/quiz'
+        >
           Get a Movie Rec!
       </Link>
+
+      <button
+        onClick={testfetch}
+      >
+        Click to test
+      </button>
+
+        <h3>
+          {message}
+        </h3>
     </>
   )
 }

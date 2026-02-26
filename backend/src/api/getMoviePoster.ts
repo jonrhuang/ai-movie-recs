@@ -24,7 +24,7 @@ async function getBaseUrl() {
     };
 
     const data = await fetch(url, options)
-      .then(res => res.json());
+      .then(res => res.json()) as { images: { base_url: string } };
 
     return data.images.base_url;
   } catch {
@@ -44,7 +44,7 @@ async function getFileSize() {
     };
 
     const data = await fetch(url, options)
-      .then(res => res.json());
+      .then(res => res.json()) as { images: { poster_sizes: string[] } };
 
     return data.images.poster_sizes;
   } catch {
@@ -59,13 +59,16 @@ async function getMoviePosterPath(movieTitle: string) {
     method: 'GET',
     headers: {
       accept: 'application/json',
-      Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
+      Authorization: `Bearer ${process.env.VITE_TMDB_API_KEY}`,
     }
   };
 
   try {
     const response = await fetch(url, options);
-    const data = await response.json();
+    const data = await response.json() as { results: Array<{ poster_path: string }> };
+    if (!data || !data.results[0]) {
+      throw new Error('Error receiving poster path');
+    }
     return data.results[0].poster_path;
   } catch {
     throw new Error('Error fetching poster path')

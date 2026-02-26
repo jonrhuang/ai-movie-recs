@@ -1,7 +1,7 @@
-import { openai, supabase } from '../utils/config'
-import movieData from '../db/movieInfo'
+import { openai, supabase } from '../utils/config.js'
+import movieData from '../db/movieInfo.js'
 
-export async function generateVectorEmbeddings() {
+export async function seedDB() {
   const data = await Promise.all(
     movieData.map(async movie => {
       const embeddingResponse = await openai.embeddings.create({
@@ -11,7 +11,7 @@ export async function generateVectorEmbeddings() {
 
       return {
         ...movie,
-        embedding: embeddingResponse.data[0].embedding
+        embedding: embeddingResponse?.data[0]?.embedding
       }
 
     })
@@ -21,5 +21,5 @@ export async function generateVectorEmbeddings() {
     ignoreDuplicates: true,
   });
   if (error) console.log(error)
-  console.log("task completed");
+  console.log("Database seeding completed");
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { queryAI } from "../../api/openai";
+//import { queryAI } from "../../api/openai";
 import type { PersonQuizAnswers, RecommendationData } from "../../utils/types";
 
 type ResultsProps = {
@@ -15,17 +15,35 @@ export function Results(props: ResultsProps) {
 
   useEffect(() => {
     const fetchRecs = async () => {
-      const data  = await queryAI(props.allAnswers) as RecommendationData[];
-      setMovieData(data);
+      try {
+        const res = await fetch("http://localhost:5000/api", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({answers: props.allAnswers})
+        }); 
+        //queryAI(props.allAnswers) as RecommendationData[];
+        if (!res.ok) {
+          throw new Error(`Error ${res.status}`);
+        }
+        const data = await res.json() as RecommendationData[];
+        setMovieData(data);
+      }
+      catch (err) {
+        throw new Error("Error fetching recommendations");
+      }
     }
     fetchRecs();
   }, []);
 
+  /*
   useEffect(() => {
     if (movieData) {
       console.log(movieData);
     }
   }, [movieData])
+  */
 
   const title = movieData && movieData[recNum] &&
     <h2>{movieData[recNum].title} ({movieData[recNum].year})</h2>;

@@ -1,7 +1,7 @@
 import dedent from 'dedent';
-import { openai, supabase } from '../utils/config'
-import type { PersonQuizAnswers, SupabaseSearchObject } from '../utils/types';
-import { getMoviePoster } from './getMoviePoster';
+import { openai, supabase } from '../utils/config.js'
+import type { PersonQuizAnswers, SupabaseSearchObject } from '../utils/types.js';
+import { getMoviePoster } from './getMoviePoster.js';
 
 export async function queryAI(prompts: PersonQuizAnswers[]) {
   const finalPrompt = prompts.map((item) => generatePrompt(item)).join('.')
@@ -12,7 +12,7 @@ export async function queryAI(prompts: PersonQuizAnswers[]) {
       input: finalPrompt,
     });
 
-    const answerEmbedding = response.data[0].embedding;
+    const answerEmbedding = response?.data[0]?.embedding;
 
     const { data, error } = await supabase.rpc('search_movies', {
       query_embedding: answerEmbedding,

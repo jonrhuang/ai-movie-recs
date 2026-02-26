@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import TitleHeader from './components/TitleHeader/TitleHeader';
 import Home from './components/Home/Home';
@@ -7,13 +7,8 @@ import QuizQuestions from './components/QuizQuestions/QuizQuestions';
 import Results from './components/Results/Results';
 import type { PrequizAnswers, PersonQuizAnswers } from './utils/types';
 import './App.css'
-import { generateVectorEmbeddings } from './api/generateVectorEmbeddings';
 
 function App() {
-
-  useEffect(() => {
-    generateVectorEmbeddings();
-  }, []);
 
   const [startAnswers, setStartAnswers] = useState<PrequizAnswers>({
     numPeople: 5,
