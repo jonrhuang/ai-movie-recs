@@ -22,8 +22,8 @@ export function Results(props: ResultsProps) {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({answers: props.allAnswers})
-        }); 
+          body: JSON.stringify({ answers: props.allAnswers })
+        });
 
         if (!res.ok) {
           throw new Error(`Error ${res.status}`);
@@ -44,15 +44,24 @@ export function Results(props: ResultsProps) {
   const description = movieData && movieData[recNum] &&
     <p>{movieData[recNum].description}</p>;
 
-  function handleClick() {
+  function handlePrevClick() {
     if (recNum === 2) {
       navigate('/');
-    } 
+    }
+    else {
+      setRecNum(prev => prev - 1);
+    }
+  }
+
+  function handleNextClick() {
+    if (recNum === 2) {
+      navigate('/');
+    }
     else {
       setRecNum(prev => prev + 1);
     }
   }
-  
+
   return (
     <>
       {!movieData && <p>Loading...</p>}
@@ -65,9 +74,17 @@ export function Results(props: ResultsProps) {
 
       {description}
 
-      <button 
+      {recNum > 0 &&
+        <button
+          className={styles.nextButton}
+          onClick={handlePrevClick}
+        >
+          Previous Movie
+        </button>
+      }
+      <button
         className={styles.nextButton}
-        onClick={handleClick}
+        onClick={handleNextClick}
       >
         {recNum < 2 ? 'Next Movie' : 'Start Over'}
       </button>
