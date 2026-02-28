@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-//import { queryAI } from "../../api/openai";
 import type { PersonQuizAnswers, RecommendationData } from "../../utils/types";
+import styles from './Results.module.css';
 
 type ResultsProps = {
   allAnswers: PersonQuizAnswers[];
@@ -13,22 +13,23 @@ export function Results(props: ResultsProps) {
   const [movieData, setMovieData] = useState<RecommendationData[] | null>(null);
   const [recNum, setRecNum] = useState(0);
 
+  // Get recommendation when result page loads
   useEffect(() => {
     const fetchRecs = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api", {
+        const res = await fetch("http://localhost:5000/recommend", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({answers: props.allAnswers})
         }); 
-        //queryAI(props.allAnswers) as RecommendationData[];
+
         if (!res.ok) {
           throw new Error(`Error ${res.status}`);
         }
-        const data = await res.json() as RecommendationData[];
-        setMovieData(data);
+        const { recommendation } = await res.json();
+        setMovieData(recommendation as RecommendationData[]);
       }
       catch (err) {
         throw new Error("Error fetching recommendations");
@@ -36,14 +37,6 @@ export function Results(props: ResultsProps) {
     }
     fetchRecs();
   }, []);
-
-  /*
-  useEffect(() => {
-    if (movieData) {
-      console.log(movieData);
-    }
-  }, [movieData])
-  */
 
   const title = movieData && movieData[recNum] &&
     <h2>{movieData[recNum].title} ({movieData[recNum].year})</h2>;
@@ -72,7 +65,10 @@ export function Results(props: ResultsProps) {
 
       {description}
 
-      <button onClick={handleClick}>
+      <button 
+        className={styles.nextButton}
+        onClick={handleClick}
+      >
         {recNum < 2 ? 'Next Movie' : 'Start Over'}
       </button>
     </>
