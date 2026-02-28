@@ -117,7 +117,7 @@ function QuizQuestions(props: QuizQuestionsProps) {
 
         <label>
           <h2>
-            Which famous film person would ou live to be stranded on an island with and why?
+            Which famous film person would you live to be stranded on an island with and why?
           </h2>
           <textarea
             className={styles.FilmPerson}
