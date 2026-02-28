@@ -8,20 +8,20 @@
   "main": "dist/server.js",
   "scripts": {
     "build": "tsc",
-    "dev": "node --loader ts-node/esm src/server.ts",
-    "start": "nodemon dist/server.js"
+    "dev": "tsx watch src/server.ts"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^25.0.10",
-    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.97.0",
     "cors": "^2.8.6",
     "dedent": "^1.7.1",
+    "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "openai": "^6.22.0"
   }
