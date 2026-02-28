@@ -5,7 +5,7 @@ import styles from './Home.module.css';
 function Home() {
   const [message, setMessage] = useState("");
   async function testfetch() {
-    const res = await fetch("http://localhost:5000/api");
+    const res = await fetch("http://localhost:5000/test");
     const data = await res.json();
     setMessage(data.message);
   }
@@ -29,9 +29,10 @@ function Home() {
       </Link>
 
       <button
+        className={styles.testButton}
         onClick={testfetch}
       >
-        Click to test
+        Click to test backend
       </button>
 
         <h3>
