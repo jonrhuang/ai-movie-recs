@@ -48,7 +48,7 @@ async function getFileSize() {
 
     return data.images.poster_sizes;
   } catch {
-    throw new Error('Error getting base url')
+    throw new Error('Error getting file size')
   }
 }
 
@@ -59,7 +59,7 @@ async function getMoviePosterPath(movieTitle: string) {
     method: 'GET',
     headers: {
       accept: 'application/json',
-      Authorization: `Bearer ${process.env.VITE_TMDB_API_KEY}`,
+      Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
     }
   };
 

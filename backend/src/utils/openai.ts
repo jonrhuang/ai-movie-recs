@@ -1,6 +1,6 @@
 import dedent from 'dedent';
-import { openai, supabase } from '../utils/config.js'
-import type { PersonQuizAnswers, SupabaseSearchObject } from '../utils/types.js';
+import { openai, supabase } from './config.js'
+import type { PersonQuizAnswers, SupabaseSearchObject } from './types.js';
 import { getMoviePoster } from './getMoviePoster.js';
 
 export async function queryAI(prompts: PersonQuizAnswers[]) {
