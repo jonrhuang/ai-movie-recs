@@ -1,10 +1,8 @@
-import http from 'node:http';
-import path from 'node:path';
-import fs, { appendFile } from 'node:fs';
 import express from 'express';
 import cors from 'cors';
 import { seedDB } from './db/seedDB.js';
-//import { serveApp } from './utils/serveApp.ts';
+import { testRouter } from './routes/test.js';
+import { recommendRouter } from './routes/recommend.js';
 
 const PORT = 5000;
 
@@ -37,9 +35,9 @@ app.use(cors({
 
 app.use(express.json());
 
-app.get('/api', (req, res) => {
-  res.json({message: "greetings from backend"});
-});
+app.use('/test', testRouter);
+
+app.use('/recommend', recommendRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
