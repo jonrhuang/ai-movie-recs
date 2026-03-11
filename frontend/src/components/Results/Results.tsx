@@ -32,11 +32,11 @@ export function Results(props: ResultsProps) {
         setMovieData(recommendation as RecommendationData[]);
       }
       catch (err) {
-        throw new Error("Error fetching recommendations");
+        throw new Error(`Error fetching recommendations: ${err}`);
       }
     }
     fetchRecs();
-  }, []);
+  });
 
   const title = movieData && movieData[recNum] &&
     <h2>{movieData[recNum].title} ({movieData[recNum].year})</h2>;

@@ -11,7 +11,7 @@ type QuizNavProps = {
 function QuizNav(props: QuizNavProps) {
   const navigate = useNavigate();
 
-  let People = Array.from({length: props.num}, (_, i) => (
+  const People = Array.from({length: props.num}, (_, i) => (
     <button 
       key={i+1} 
       className={`
